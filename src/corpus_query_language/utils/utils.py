@@ -6,8 +6,7 @@ import re
 from pathlib import Path
 from typing import Any
 
-from corpus_query_language.language.lexer import Lexer
-from corpus_query_language.language.parser import Parser
+from corpus_query_language.language.parser import CQLParser
 
 logger = logging.getLogger(__name__)
 
@@ -40,15 +39,13 @@ def build_grammar(debug: bool, query: str) -> list[Any]:
 
     logger.debug(f"Building grammar for query: {query}")
 
-    lexer = Lexer()
-    lexer.tokenize(query, debug=debug)
-
-    parser = Parser(lexer, debug=debug)
+    parser = CQLParser(debug=debug)
+    ast = parser.parse(query)
 
     if debug:
-        logger.debug(f"Generated AST: {parser.ast}")
+        logger.debug(f"Generated AST: {ast}")
 
-    return parser.ast
+    return ast
 
 
 def simple_match(query: QueryTuple, text_token: AnnotatedToken) -> bool:
