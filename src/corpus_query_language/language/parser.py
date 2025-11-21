@@ -44,7 +44,9 @@ class ASTTransformer(Transformer):
     """
 
     @v_args(inline=True)
-    def equals_query(self, annotation: Token, equal_op: Token, value: Token) -> tuple[str, str, str]:
+    def equals_query(
+        self, annotation: Token, equal_op: Token, value: Token
+    ) -> tuple[str, str, str]:
         """Transform equals query: annotation='value'.
 
         Args:
@@ -61,7 +63,9 @@ class ASTTransformer(Transformer):
         return (str(annotation), "=", self._clean_value(value))
 
     @v_args(inline=True)
-    def not_equals_query(self, annotation: Token, notequal_op: Token, value: Token) -> tuple[str, str, str]:
+    def not_equals_query(
+        self, annotation: Token, notequal_op: Token, value: Token
+    ) -> tuple[str, str, str]:
         """Transform not-equals query: annotation!='value'.
 
         Args:
@@ -324,9 +328,9 @@ class CQLParser:
         try:
             self.parser = Lark(
                 grammar,
-                parser='lalr',
+                parser="lalr",
                 transformer=ASTTransformer(),
-                start='start',
+                start="start",
                 debug=debug,
             )
             logger.info("CQL Parser initialized successfully with Lark")
