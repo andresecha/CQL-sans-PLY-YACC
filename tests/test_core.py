@@ -71,9 +71,7 @@ class TestCQLEngine:
     def test_findall_and_query(self, sample_corpus):
         """Test findall with AND operator."""
         engine = CQLEngine()
-        results = engine.findall(
-            sample_corpus, "[lemma='rey' & pos='NOUN']", verbose=False
-        )
+        results = engine.findall(sample_corpus, "[lemma='rey' & pos='NOUN']", verbose=False)
         assert len(results) == 1
         assert results[0] == (3, 4)
 

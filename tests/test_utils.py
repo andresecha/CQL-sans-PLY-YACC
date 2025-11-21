@@ -77,9 +77,7 @@ class TestImportCorpus:
             {"word": "word", "lemma": "word", "pos": "NOUN", "morph": ""},
         ]
 
-        with tempfile.NamedTemporaryFile(
-            mode="w", suffix=".json", delete=False
-        ) as f:
+        with tempfile.NamedTemporaryFile(mode="w", suffix=".json", delete=False) as f:
             json.dump(corpus_data, f)
             temp_path = f.name
 
@@ -97,9 +95,7 @@ class TestImportCorpus:
 
     def test_import_corpus_invalid_json(self):
         """Test import_corpus with invalid JSON."""
-        with tempfile.NamedTemporaryFile(
-            mode="w", suffix=".json", delete=False
-        ) as f:
+        with tempfile.NamedTemporaryFile(mode="w", suffix=".json", delete=False) as f:
             f.write("invalid json content")
             temp_path = f.name
 

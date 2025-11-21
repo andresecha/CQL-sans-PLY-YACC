@@ -50,12 +50,8 @@ def main() -> NoReturn:
         default="findall",
         help="Query mode: 'match' returns boolean, 'findall' returns all matches",
     )
-    parser.add_argument(
-        "-v", "--verbose", action="store_true", help="Enable verbose output"
-    )
-    parser.add_argument(
-        "-d", "--debug", action="store_true", help="Enable debug mode"
-    )
+    parser.add_argument("-v", "--verbose", action="store_true", help="Enable verbose output")
+    parser.add_argument("-d", "--debug", action="store_true", help="Enable debug mode")
 
     args = parser.parse_args()
 
@@ -77,15 +73,11 @@ def main() -> NoReturn:
 
         # Execute query
         if args.mode == "match":
-            result = engine.match(
-                corpus, args.query, verbose=args.verbose, debug=args.debug
-            )
+            result = engine.match(corpus, args.query, verbose=args.verbose, debug=args.debug)
             print(f"Match: {result}")
             sys.exit(0 if result else 1)
         else:
-            results = engine.findall(
-                corpus, args.query, verbose=args.verbose, debug=args.debug
-            )
+            results = engine.findall(corpus, args.query, verbose=args.verbose, debug=args.debug)
             print(f"Found {len(results)} matches:")
             for start, end in results:
                 print(f"  [{start}:{end}]")
