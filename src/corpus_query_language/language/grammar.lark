@@ -1,0 +1,72 @@
+// CQL (Corpus Query Language) Grammar for Lark
+// This grammar defines the syntax for querying annotated text corpora
+
+?start: queries
+
+// Queries: sequence of one or more query elements
+queries: query+
+
+// Query: a bracketed query, optional query, or OR query
+query: bracketed_query
+     | query INTERROGATIVE          -> optional_query
+     | or_query
+
+// OR query: (query | query) within parentheses
+or_query: LPAREN simple_query OR simple_query RPAREN
+
+simple_query: bracketed_query
+
+// Bracketed query: [query_content] with optional distance operator
+bracketed_query: LSQBRACK query_content RSQBRACK
+               | bracketed_query distance bracketed_query  -> distance_query
+
+// Query content: single atom or AND combination
+query_content: query_atom
+             | and_query
+
+// AND query: multiple atoms combined with & operator
+and_query: query_atom (AND query_atom)+
+
+// Query atom: comparison between annotation and value
+?query_atom: annotation EQUAL VALUE      -> equals_query
+           | annotation NOTEQUAL VALUE   -> not_equals_query
+
+// Supported annotation types
+annotation: LEMMA | POS | MORPH | WORD
+
+// Distance operator: []{min,max}
+distance: DISTANCE
+
+// Terminals (Tokens)
+LEMMA: "lemma"
+POS: "pos"
+MORPH: "morph"
+WORD: "word"
+
+// Operators
+EQUAL: "="
+NOTEQUAL: "!="
+AND: "&"
+OR: "|"
+INTERROGATIVE: "?"
+PLUS: "+"
+ASTERISK: "*"
+
+// Brackets and parentheses
+LSQBRACK: "["
+RSQBRACK: "]"
+LPAREN: "("
+RPAREN: ")"
+
+// Distance pattern: []{min,max} or []{,max}
+DISTANCE: /\[\s*\]\{\s*[0-9]*\s*,\s*[0-9]+\s*\}/
+
+// Range pattern: {min,max} (for future use)
+RANGE: /\{\s*[0-9]*\s*,\s*[0-9]+\s*\}/
+
+// Values: strings enclosed in single quotes
+VALUE: /'[^']+'/
+
+// Import common whitespace handling and ignore whitespace
+%import common.WS
+%ignore WS

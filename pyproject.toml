@@ -39,7 +39,7 @@ classifiers = [
     "Typing :: Typed",
 ]
 dependencies = [
-    "ply>=3.11",
+    "lark>=1.1.9",
 ]
 
 [project.optional-dependencies]
@@ -163,7 +163,7 @@ show_error_codes = true
 show_error_context = true
 
 [[tool.mypy.overrides]]
-module = "ply.*"
+module = "lark.*"
 ignore_missing_imports = true
 
 # Pytest configuration
