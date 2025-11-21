@@ -1,0 +1,2 @@
+# Production dependencies
+ply>=3.11
